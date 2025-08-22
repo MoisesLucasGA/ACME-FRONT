@@ -1,30 +1,32 @@
 import axios from "axios";
 import { call, put } from "redux-saga/effects";
-import * as actions from "../actions/getPatientsActions";
-import type { GetPatientsResponse } from "@/useCases/getPatient";
+import * as actions from "../actions/createAppointment";
+import type { CreateAppointmentResponse } from "@/useCases/createAppointment";
 
 export const controller = async (payload: any): Promise<unknown> => {
   try {
     const result = (
-      await axios.get("https://localhost:7254/api/patients", {params: {...payload}})
-    );
+      await axios.post("https://localhost:7254/api/appointments", {...payload})
+    )
 
     if (result.data.code !== 200) {
         throw new Error(result.data.message || "Erro desconhecido");
     }
 
     return { success: true, data: result.data.data, error: "" };
+    
   } catch (error:any) {
     const message = error.response?.data?.message || error.message || "Erro desconhecido";
     return { success: false, data: {}, error: message };
   }
+
 };
 
-export function* GetPatientSaga({ payload }: any) {
+export function* CreateAppointmentSaga({ payload }: any) {
   try {
-    const result: GetPatientsResponse = yield call(controller, payload);
-    yield put(actions.GetPatientsSuccess(result.data));
+    const result: CreateAppointmentResponse = yield call(controller, payload);
+    yield put(actions.CreateAppointmentSuccess(result.data));
   } catch (error: any) {
-    yield put(actions.GetPatientsError(error.toString()));
+    yield put(actions.CreateAppointmentError(error.toString()));
   }
 }

@@ -1,12 +1,12 @@
 import axios from "axios";
 import { call, put } from "redux-saga/effects";
-import * as actions from "../actions/getPatientsActions";
-import type { GetPatientsResponse } from "@/useCases/getPatient";
+import * as actions from "../actions/getAppointmentsActions";
+import type { GetAppointmentsResponse } from "@/useCases/getAppointments";
 
 export const controller = async (payload: any): Promise<unknown> => {
   try {
     const result = (
-      await axios.get("https://localhost:7254/api/patients", {params: {...payload}})
+      await axios.get("https://localhost:7254/api/appointments", {params: {...payload}})
     );
 
     if (result.data.code !== 200) {
@@ -20,11 +20,11 @@ export const controller = async (payload: any): Promise<unknown> => {
   }
 };
 
-export function* GetPatientSaga({ payload }: any) {
+export function* GetAppointmentsSaga({ payload }: any) {
   try {
-    const result: GetPatientsResponse = yield call(controller, payload);
-    yield put(actions.GetPatientsSuccess(result.data));
+    const result: GetAppointmentsResponse = yield call(controller, payload);
+    yield put(actions.GetAppointmentsSuccess(result.data));
   } catch (error: any) {
-    yield put(actions.GetPatientsError(error.toString()));
+    yield put(actions.GetAppointmentsError(error.toString()));
   }
 }

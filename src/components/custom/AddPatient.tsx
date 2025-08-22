@@ -24,20 +24,20 @@ import { SexEnum } from "@/enums/sexEnum";
 import { CreatePatientRequest } from "@/redux/actions/createPatientActions";
 import { PatientStatus } from "@/enums/patientStatusEnum";
 
-const sexValues = Object.values(SexEnum).filter(e => Number.isNaN(Number(e)) ) as [string, ...string[]];
+const sexValues = Object.values(SexEnum).filter((e) =>
+  Number.isNaN(Number(e))
+) as [string, ...string[]];
 
 const mapSexEnum = (x: string) => {
-    switch (x) {
-        case "Male":
-            return SexEnum.Male
-        case 'Female':
-            return SexEnum.Female
-        default:
-            return SexEnum.Other
-    }
-}
-
-console.log(sexValues);
+  switch (x) {
+    case "Male":
+      return SexEnum.Male;
+    case "Female":
+      return SexEnum.Female;
+    default:
+      return SexEnum.Other;
+  }
+};
 
 const patientSchema = z.object({
   name: z.string(),
@@ -60,33 +60,26 @@ export const AddPatient = () => {
   });
 
   function onSubmit(values: z.infer<typeof patientSchema>) {
-    // dispatch(
-    //   GetPatientsRequest({
-    //     search: values.search,
-    //     status: values.status,
-    //   })
-    // );
     dispatch(
-        CreatePatientRequest({
-            name: values.name,
-            birthdate: new Date(values.birthdate),
-            cpf: values.cpf,
-            sex: mapSexEnum(values.sex),
-            status: PatientStatus.Active,
-            zipCode: values.zipCode,
-            city: values.city,
-            neighborhood: values.neighborhood,
-            street: values.street,
-            number: values.number
-        })
-    )
-    // console.log(SexEnum[values.sex as unknown as SexEnum]);
+      CreatePatientRequest({
+        name: values.name,
+        birthdate: new Date(values.birthdate),
+        cpf: values.cpf,
+        sex: mapSexEnum(values.sex),
+        status: PatientStatus.Active,
+        zipCode: values.zipCode,
+        city: values.city,
+        neighborhood: values.neighborhood,
+        street: values.street,
+        number: values.number,
+      })
+    );
   }
 
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button>Buscar</Button>
+        <Button>Adicionar</Button>
       </DialogTrigger>
       <DialogContent className="max-h-[90vh] overflow-auto">
         <DialogHeader>
@@ -261,9 +254,7 @@ export const AddPatient = () => {
                 </FormItem>
               )}
             />
-            <Button type="submit">
-              Salvar
-            </Button>
+            <Button type="submit">Salvar</Button>
           </form>
         </Form>
       </DialogContent>
