@@ -113,13 +113,9 @@ export const AddPatient = () => {
               name="birthdate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Data de Nascimento</FormLabel>
+                  <FormLabel>Data Inicial</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="Digite aqui"
-                      onChange={(e) => field.onChange(e)}
-                      value={field.value}
-                    />
+                    <Input type="date" {...field} />
                   </FormControl>
                   <FormDescription />
                   <FormMessage />
